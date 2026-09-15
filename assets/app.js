@@ -670,8 +670,8 @@ function updateFavUI(){
     b.setAttribute('aria-label', translations[currentLang][on?'fav_aria_done':'fav_aria']);
     b.hidden = false;
   });
-  favCount.textContent = favs.length;
-  favBadge.classList.toggle('active', favMode);
+if(favCount) favCount.textContent = favs.length;
+  if(favBadge) favBadge.classList.toggle('active', favMode);
   doSearch();
 }
 favBtns.forEach(b=>{
@@ -679,14 +679,14 @@ favBtns.forEach(b=>{
     e.stopPropagation();
     const idx = parseInt(b.getAttribute('data-idx'));
     const on = favs.indexOf(idx)>=0;
-if(on){ favs = favs.filter(i=>i!==idx); showToast(translations[currentLang].fav_removed); }
+    if(on){ favs = favs.filter(i=>i!==idx); showToast(translations[currentLang].fav_removed); }
     else{ favs.push(idx); showToast(translations[currentLang].fav_added); }
     saveFavs();
     updateFavUI();
     syncFav(idx, !on);
   });
 });
-favBadge.addEventListener('click', ()=>{
+if(favBadge) favBadge.addEventListener('click', ()=>{
   favMode = !favMode;
   if(favMode && favs.length===0){ showToast(translations[currentLang].fav_removed); favMode = false; return; }
   showToast(translations[currentLang][favMode?'favs_only':'favs_all']);
