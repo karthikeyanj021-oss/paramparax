@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ParamparaX — Community gallery</title>
+<title>ParamparaX — Log in</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="lang-en">
@@ -38,9 +38,9 @@
       <a href="index.html" data-i18n="nav_home">Home</a>
       <a href="crafts.html" data-i18n="nav_services">Crafts</a>
       <a href="how.html" data-i18n="nav_how">How it works</a>
-      <a href="gallery.html" class="active" data-i18n="nav_gallary">Gallery</a>
+      <a href="gallery.html" data-i18n="nav_gallary">Gallery</a>
       <a href="chat.html" data-i18n="nav_chat">Chat</a>
-      <a href="login.html" data-i18n="login_nav">Log in</a>
+      <a href="login.html" class="active" data-i18n="login_nav">Log in</a>
       <a href="contact.html" data-i18n="nav_contact">Contact</a>
     </nav>
     <div class="lang-switch" role="group" aria-label="Language">
@@ -61,34 +61,47 @@
 
 <section class="page-head" id="maincontent" tabindex="-1">
   <div class="wrap">
-    <span class="hero-eyebrow" data-i18n="pg_eyebrow_gal">Gallery</span>
-    <h1 data-i18n="gal_h2">Community gallery</h1>
-    <p data-i18n="gal_sub">Share photos of your heritage, crafts and festivals — seen by the whole community.</p>
+    <h1 data-i18n="login_h2">Welcome back</h1>
+    <p data-i18n="login_sub">Log in or create an account to sync favourites, chat history and upload to the gallery.</p>
   </div>
 </section>
 
-<section class="gal" id="gallery">
+<section class="authsec" id="auth">
   <div class="wrap">
-    <form class="gal-form" id="galForm">
-      <div class="gal-row">
-        <input type="text" id="galCaption" maxlength="200" data-i18n-placeholder="gal_cap_ph" data-i18n-aria="gal_cap_ph" placeholder="Add a caption (optional)">
-        <input type="file" id="galFile" accept=".jpg,.jpeg,.png,.gif,.webp" data-i18n-aria="gal_pick" aria-label="Choose photo" hidden>
-        <button type="button" class="btn btn-outline" id="galPickBtn" data-i18n="gal_pick">Choose photo</button>
-        <button type="submit" class="btn" data-i18n="gal_up">Upload</button>
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="Auth mode">
+        <button type="button" class="auth-tab active" role="tab" aria-selected="true" id="tabLogin" data-auth-tab="login" data-i18n="auth_login_tab">Log in</button>
+        <button type="button" class="auth-tab" role="tab" aria-selected="false" id="tabRegister" data-auth-tab="register" data-i18n="auth_register_tab">Register</button>
       </div>
-      <div class="gal-status" id="galStatus" role="status" aria-live="polite"></div>
-    </form>
-    <div class="gal-grid" id="galGrid">
-      <p class="gal-empty" id="galEmpty" data-i18n="gal_empty">No photos yet — be the first to share one!</p>
+      <div class="auth-status" id="authStatus" role="status" aria-live="polite"></div>
+      <form id="authForm" novalidate>
+        <div class="auth-fields">
+          <div class="form-field">
+            <input type="text" id="authUsername" autocomplete="username" maxlength="24"
+                   data-i18n-placeholder="auth_username" data-i18n-aria="auth_username" placeholder="Username" required>
+          </div>
+          <div class="form-field">
+            <input type="password" id="authPassword" autocomplete="current-password" minlength="6"
+                   data-i18n-placeholder="auth_password" data-i18n-aria="auth_password" placeholder="Password" required>
+          </div>
+          <div class="form-field" id="confirmField" hidden>
+            <input type="password" id="authConfirm" autocomplete="new-password" minlength="6"
+                   data-i18n-placeholder="auth_confirm" data-i18n-aria="auth_confirm" placeholder="Confirm password">
+          </div>
+          <div class="form-field" id="stateField" hidden>
+            <select id="authState" data-i18n-aria="auth_optional">
+              <option value="" data-i18n="auth_optional">State (optional)</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn" id="authSubmit" data-i18n="auth_login_btn">Log in</button>
+      </form>
+      <p class="auth-switch">
+        <span id="authSwitchTxt" data-i18n="auth_switch_register">New here? Create an account</span>
+        <button type="button" id="authSwitchBtn" data-i18n="auth_register_btn">Create account</button>
+      </p>
     </div>
   </div>
-</section>
-
-<section class="cta">
-  <div class="wrap">
-    <h2 data-i18n="cta_h2">Every craft has a maker. Every maker has a story.</h2>
-    <button class="btn" data-i18n="cta_btn">Start exploring</button>
-</div>
 </section>
 
 <footer id="footer">

@@ -48,7 +48,24 @@ favs_only:"Showing your favourite crafts.", favs_all:"Showing all crafts.",
     worlds_h2:"The Six Worlds of ParamparaX",
     worlds_sub:"Journey through the worlds that make up India's living heritage — each with its own stories, sounds and colours.",
     world_t1:"Arts and Handicrafts", world_t2:"Dance Forms", world_t3:"Culture and Festivals",
-    world_t4:"Heritage Places", world_t5:"Languages", world_t6:"Origins and Stories"
+    world_t4:"Heritage Places", world_t5:"Languages", world_t6:"Origins and Stories",
+    login_nav:"Log in", login_h2:"Welcome back",
+    login_sub:"Log in or create an account to sync favourites, chat history and upload to the gallery.",
+    auth_login_tab:"Log in", auth_register_tab:"Register",
+    auth_username:"Username", auth_password:"Password", auth_confirm:"Confirm password",
+    auth_optional:"State (optional)",
+    auth_login_btn:"Log in", auth_register_btn:"Create account",
+    auth_switch_register:"New here? Create an account", auth_switch_login:"Already have an account? Log in",
+    auth_err_missing:"Please fill in all fields.",
+    auth_err_userlen:"Username must be 3-24 letters/numbers.",
+    auth_err_passlen:"Password must be at least 6 characters.",
+    auth_err_match:"Passwords do not match.",
+    auth_err_bad:"Wrong username or password.",
+    auth_err_taken:"That username is already taken.",
+    auth_err_server:"Server error \u2014 please try again.",
+    auth_ok:"Welcome, {user}!",
+    auth_logout:"Log out",
+    gal_login_req:"Please log in to upload photos.",
   },
   hi: {
 brand:"परंपराX", nav_home:"होम", nav_services:"शिल्प", nav_how:"यह कैसे काम करता है", nav_contact:"संपर्क करें", nav_gallary:"गैलरी", nav_chat:"चैट", chat_h2:"परंपराX AI गाइड से पूछें", chat_lead:"किसी स्मारक, त्योहार, शिल्प या रेसिपी के बारे में जानना है? पूछें, बोलें या सुनें \u2014 तुरंत जवाब।",
@@ -99,7 +116,24 @@ favs_only:"आपकी पसंदीदा शिल्प दिखाए �
     worlds_h2:"परंपराX के छह संसार",
     worlds_sub:"भारत की जीवित विरासत के संसारों की यात्रा करें — हर एक की अपनी कहानियां, ध्वनियां और रंग हैं।",
     world_t1:"कला और हस्तशिल्प", world_t2:"नृत्य शैलियाँ", world_t3:"संस्कृति और त्योहार",
-    world_t4:"विरासत स्थल", world_t5:"भाषाएं", world_t6:"उत्पत्ति और कथाएं"
+    world_t4:"विरासत स्थल", world_t5:"भाषाएं", world_t6:"उत्पत्ति और कथाएं",
+    login_nav:"लॉग इन", login_h2:"वापसी पर स्वागत है",
+    login_sub:"पसंदीदा सिंक, चैट इतिहास और गैलरी अपलोड के लिए लॉग इन करें या खाता बनाएं।",
+    auth_login_tab:"लॉग इन", auth_register_tab:"पंजीकरण",
+    auth_username:"उपयोगकर्ता नाम", auth_password:"पासवर्ड", auth_confirm:"पासवर्ड दोबारा",
+    auth_optional:"राज्य (वैकल्पिक)",
+    auth_login_btn:"लॉग इन", auth_register_btn:"खाता बनाएं",
+    auth_switch_register:"नए हैं? खाता बनाएं", auth_switch_login:"पहले से खाता है? लॉग इन करें",
+    auth_err_missing:"कृपया सभी फ़ील्ड भरें।",
+    auth_err_userlen:"उपयोगकर्ता नाम 3-24 अक्षर/संख्या का होना चाहिए।",
+    auth_err_passlen:"पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।",
+    auth_err_match:"पासवर्ड मेल नहीं खाते।",
+    auth_err_bad:"गलत उपयोगकर्ता नाम या पासवर्ड।",
+    auth_err_taken:"यह उपयोगकर्ता नाम पहले से लिया गया है।",
+    auth_err_server:"सर्वर त्रुटि \u2014 कृपया पुनः प्रयास करें।",
+    auth_ok:"स्वागत है, {user}!",
+    auth_logout:"लॉग आउट",
+    gal_login_req:"फोटो अपलोड करने के लिए कृपया लॉग इन करें।",
   },
   te: {
 brand:"పరంపరX", nav_home:"హోమ్", nav_services:"శిల్పాలు", nav_how:"ఇది ఎలా పనిచేస్తుంది", nav_contact:"సంప్రదించండి", nav_gallary:"గ్యాలరీ", nav_chat:"చాట్", chat_h2:"హెరిటేజ్ AI గైడ్ని అడగండి", chat_lead:"స్మారకం, పండుగ, శిల్పం లేదా వంటకం గురించి ఆసక్తి ఉందా? అడగండి, మాట్లాడండి లేదా వినండి \u2014 వెంటనే సమాధానం.",
@@ -150,11 +184,29 @@ favs_only:"మీ ఇష్టమైన శిల్పాలు చూపుత
     worlds_h2:"పరంపరX ఆరు ప్రపంచాలు",
     worlds_sub:"భారతదేశ సజీవ వారసత్వాన్ని రూపొందించే ప్రపంచాలుగా ప్రయాణించండి — ప్రతిదానికీ సొంత కథలు, శబ్దాలు మరియు రంగులు ఉన్నాయి.",
     world_t1:"కళలు మరియు చేతిపనులు", world_t2:"నృత్య రూపాలు", world_t3:"సంస్కృతి మరియు పండుగలు",
-    world_t4:"వారసత్వ ప్రదేశాలు", world_t5:"భాషలు", world_t6:"మూలాలు మరియు కథలు"
+    world_t4:"వారసత్వ ప్రదేశాలు", world_t5:"భాషలు", world_t6:"మూలాలు మరియు కథలు",
+    login_nav:"లాగిన్", login_h2:"తిరిగి స్వాగతం",
+    login_sub:"ఇష్టమైనవి సింక్, చాట్ చరిత్ర మరియు గ్యాలరీ అప్‌లోడ్ కోసం లాగిన్ అవ్వండి లేదా ఖాతా సృష్టించండి.",
+    auth_login_tab:"లాగిన్", auth_register_tab:"నమోదు",
+    auth_username:"వినియోగదారు పేరు", auth_password:"పాస్‌వర్డ్", auth_confirm:"పాస్‌వర్డ్ నిర్ధారించండి",
+    auth_optional:"రాష్ట్రం (ఐచ్ఛికం)",
+    auth_login_btn:"లాగిన్", auth_register_btn:"ఖాతా సృష్టించండి",
+    auth_switch_register:"కొత్తవా? ఖాతా సృష్టించండి", auth_switch_login:"ఖాతా ఉందా? లాగిన్ చేయండి",
+    auth_err_missing:"దయచేసి అన్ని ఫీల్డ్‌లను పూరించండి.",
+    auth_err_userlen:"వినియోగదారు పేరు 3-24 అక్షరాలు/సంఖ్యలు ఉండాలి.",
+    auth_err_passlen:"పాస్‌వర్డ్ కనీసం 6 అక్షరాలు ఉండాలి.",
+    auth_err_match:"పాస్‌వర్డ్‌లు సరిపోలడం లేదు.",
+    auth_err_bad:"తప్పు వినియోగదారు పేరు లేదా పాస్‌వర్డ్.",
+    auth_err_taken:"ఆ వినియోగదారు పేరు ఇప్పటికే ఉంది.",
+    auth_err_server:"సర్వర్ లోపం \u2014 దయచేసి మళ్లీ ప్రయత్నించండి.",
+    auth_ok:"స్వాగతం, {user}!",
+    auth_logout:"లాగ్ అవుట్",
+    gal_login_req:"ఫోటోలు అప్‌లోడ్ చేయడానికి దయచేసి లాగిన్ అవ్వండి.",
   }
 };
 
 /* ---- Six Worlds slideshows ---- */
+const API = '';
 const WORLD_BASE = '/uploads/';
 const WORLD_FILES = [
   "1789485989532_whatsapp_heritage.jpg",
@@ -285,6 +337,7 @@ document.querySelectorAll('.lang-switch button').forEach(b=>{
   });
   doSearch();
   renderWorlds();
+  refreshAuthUI();
 }
 
 const SERVICE_STEPS = {
@@ -528,6 +581,80 @@ if(statNums.length) statNums.forEach(n=> statObs.observe(n));
   document.body.appendChild(field);
 })();
 
+/* account auth (username + password) */
+let authToken = null, authUser = null;
+try{ authToken = localStorage.getItem('paramparax_token') || null; authUser = localStorage.getItem('paramparax_user') || null; }catch(e){}
+
+function authHeaders(){
+  const h = {'Content-Type':'application/json'};
+  if(authToken) h['Authorization'] = 'Bearer ' + authToken;
+  return h;
+}
+function setAuth(token, user){
+  authToken = token || null;
+  authUser = user || null;
+  try{
+    if(authToken){ localStorage.setItem('paramparax_token', authToken); localStorage.setItem('paramparax_user', authUser); }
+    else{ localStorage.removeItem('paramparax_token'); localStorage.removeItem('paramparax_user'); }
+  }catch(e){}
+  refreshAuthUI();
+}
+function requireLogin(){
+  showToast((translations[currentLang]||translations.en).gal_login_req);
+  setTimeout(()=>{ location.href = 'login.html'; }, 900);
+}
+async function logout(){
+  try{ if(authToken) await fetch(API + '/api/auth/logout', {method:'POST', headers: authHeaders()}); }catch(e){}
+  setAuth(null, null);
+  showToast((translations[currentLang]||translations.en).auth_logout);
+}
+function refreshAuthUI(){
+  const el = document.querySelector('nav a[href="login.html"]');
+  if(!el) return;
+  if(authUser){
+    el.textContent = authUser + ' \u00b7 ' + ((translations[currentLang]||translations.en).auth_logout);
+    el.removeAttribute('data-i18n');
+    el.onclick = (e)=>{
+      e.preventDefault();
+      logout();
+      el.textContent = (translations[currentLang]||translations.en).login_nav;
+      el.setAttribute('data-i18n','login_nav');
+    };
+  }else{
+    el.textContent = (translations[currentLang]||translations.en).login_nav;
+    el.setAttribute('data-i18n','login_nav');
+    el.onclick = null;
+  }
+}
+async function loadServerFavs(){
+  if(!authToken) return;
+  try{
+    const res = await fetch(API + '/api/favs', {headers: authHeaders()});
+    if(res.ok){
+      const d = await res.json();
+      if(Array.isArray(d.favs)){
+        const merged = favs.slice();
+        d.favs.forEach(s=>{ const n = parseInt(s,10); if(!isNaN(n) && merged.indexOf(n)<0) merged.push(n); });
+        favs = merged;
+        saveFavs();
+        updateFavUI();
+      }
+    }else if(res.status === 401){
+      setAuth(null, null);
+    }
+  }catch(e){}
+}
+function syncFav(idx, on){
+  if(!authToken) return;
+  try{
+    fetch(API + '/api/favs' + (on ? '' : '/' + encodeURIComponent(idx)), {
+      method: on ? 'POST' : 'DELETE',
+      headers: authHeaders(),
+      body: on ? JSON.stringify({item: String(idx)}) : undefined
+    }).then(r=>{ if(r.status === 401) setAuth(null, null); }).catch(()=>{});
+  }catch(e){}
+}
+
 /* favourites with localStorage */
 let favs = [];
 try{ favs = JSON.parse(localStorage.getItem('virasat_favs')) || []; }catch(e){ favs = []; }
@@ -555,10 +682,11 @@ favBtns.forEach(b=>{
     e.stopPropagation();
     const idx = parseInt(b.getAttribute('data-idx'));
     const on = favs.indexOf(idx)>=0;
-    if(on){ favs = favs.filter(i=>i!==idx); showToast(translations[currentLang].fav_removed); }
+if(on){ favs = favs.filter(i=>i!==idx); showToast(translations[currentLang].fav_removed); }
     else{ favs.push(idx); showToast(translations[currentLang].fav_added); }
     saveFavs();
     updateFavUI();
+    syncFav(idx, !on);
   });
 });
 favBadge.addEventListener('click', ()=>{
@@ -632,6 +760,8 @@ document.addEventListener('keydown', e=>{
 
 setLang(currentLang);
 updateFavUI();
+loadServerFavs();
+refreshAuthUI();
 
 /* ---- typewriter on page titles ---- */
 (function(){
@@ -670,7 +800,6 @@ const signupForm = document.getElementById('signupForm');
 const signupStateSel = document.getElementById('signupState');
 const signupErrorBox = document.querySelector('.form-error');
 const signupSuccessBox = document.querySelector('.form-success');
-const API = '';
 
 function fillStateOptions(){
   const sel = signupStateSel;
@@ -784,13 +913,14 @@ if(galForm){
       setGalStatus((translations[currentLang]||translations.en).gal_need_img, true);
       return;
     }
+    if(!authUser){ requireLogin(); return; }
     const fd = new FormData();
     fd.append('file', file);
     fd.append('caption', (galCaption.value || '').trim());
     const btn = galForm.querySelector('[type=submit]');
     btn.disabled = true;
     try{
-      const res = await fetch(API + '/api/gallery', {method:'POST', body: fd});
+      const res = await fetch(API + '/api/gallery', {method:'POST', headers: (authToken?{'Authorization':'Bearer '+authToken}:{}), body: fd});
       if(!res.ok){
         setGalStatus((translations[currentLang]||translations.en).gal_fail, true);
         return;
@@ -1300,9 +1430,16 @@ return bestMatch ? bestMatch.response : FALLBACK;
       messagesEl.insertBefore(msg, typingIndicator);
       messagesEl.scrollTop = messagesEl.scrollHeight;
 
-      if (!skipSave) {
+if (!skipSave) {
         chatHistory.push({ text, sender, time: formatTime() });
         localStorage.setItem('heritage_chat', JSON.stringify(chatHistory));
+        if (authUser && authToken) {
+          fetch(API + '/api/chat', {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ role: sender, text: String(text).slice(0, 20000) })
+          }).then(r=>{ if(r.status === 401) setAuth(null, null); }).catch(()=>{});
+        }
       }
     }
 
@@ -1457,6 +1594,9 @@ clearChatBtn.addEventListener('click', () => {
       stopVoice();
       chatHistory = [];
       localStorage.removeItem('heritage_chat');
+      if(authToken){
+        fetch(API + '/api/chat', {method:'DELETE', headers: authHeaders()}).then(r=>{ if(r.status === 401) setAuth(null, null); }).catch(()=>{});
+      }
       document.querySelectorAll('.msg').forEach(m => m.remove());
       welcomeCard.style.display = '';
     });
@@ -1519,12 +1659,29 @@ clearChatBtn.addEventListener('click', () => {
       micBtn.style.display = 'none';
     }
 
-    /* ---- Load chat history ---- */
+/* ---- Load chat history ---- */
     function loadHistory() {
       if (chatHistory.length > 0) {
         welcomeCard.style.display = 'none';
         chatHistory.forEach(m => addMessage(m.text, m.sender, true));
       }
+    }
+
+    async function loadServerChat(){
+      if(!authUser || !authToken) return;
+      try{
+        const res = await fetch(API + '/api/chat', {headers: authHeaders()});
+        if(res.status === 401){ setAuth(null, null); return; }
+        if(!res.ok) return;
+        const d = await res.json();
+        if(Array.isArray(d.messages) && d.messages.length){
+          chatHistory = d.messages.map(m => ({ sender: m.role, text: m.text, time: m.created_at || formatTime() }));
+          localStorage.setItem('heritage_chat', JSON.stringify(chatHistory));
+          welcomeCard.style.display = 'none';
+          document.querySelectorAll('.msg').forEach(m => m.remove());
+          chatHistory.forEach(m => addMessage(m.text, m.sender, true));
+        }
+      }catch(e){}
     }
 
     /* ---- Voices for TTS ---- */
@@ -1533,6 +1690,7 @@ clearChatBtn.addEventListener('click', () => {
     }
 
     loadHistory();
+    loadServerChat();
 }
   
 
@@ -1597,4 +1755,118 @@ if(qp && document.getElementById('searchInput')){
   document.getElementById('searchInput').value = qp;
   doSearch();
   if(typeof buildSuggestions === 'function') buildSuggestions();
+}
+
+/* ---- Login / register page ---- */
+if(document.getElementById('authForm')){
+  const authForm = document.getElementById('authForm');
+  const authStatus = document.getElementById('authStatus');
+  const unameInput = document.getElementById('authUsername');
+  const passInput = document.getElementById('authPassword');
+  const confInput = document.getElementById('authConfirm');
+  const authState = document.getElementById('authState');
+  const confirmField = document.getElementById('confirmField');
+  const stateField = document.getElementById('stateField');
+  const authSubmit = document.getElementById('authSubmit');
+  const tabLogin = document.getElementById('tabLogin');
+  const tabRegister = document.getElementById('tabRegister');
+  const authSwitchTxt = document.getElementById('authSwitchTxt');
+  const authSwitchBtn = document.getElementById('authSwitchBtn');
+  let authMode = 'login';
+
+  function authT(){ return translations[currentLang] || translations.en; }
+  function fillAuthStates(){
+    if(!authState) return;
+    while(authState.options.length > 1) authState.remove(1);
+    Object.keys(STATE_INFO).forEach(code=>{
+      const entry = STATE_INFO[code][currentLang] || STATE_INFO[code].en;
+      const opt = document.createElement('option');
+      opt.value = entry[0];
+      opt.textContent = entry[0];
+      authState.appendChild(opt);
+    });
+  }
+  function setAuthMode(mode){
+    authMode = mode;
+    const t = authT();
+    tabLogin.classList.toggle('active', mode === 'login');
+    tabRegister.classList.toggle('active', mode === 'register');
+    tabLogin.setAttribute('aria-selected', mode === 'login');
+    tabRegister.setAttribute('aria-selected', mode === 'register');
+    confirmField.hidden = mode !== 'register';
+    stateField.hidden = mode !== 'register';
+    if(mode === 'register') fillAuthStates();
+    authSubmit.textContent = t[mode === 'register' ? 'auth_register_btn' : 'auth_login_btn'];
+    authSwitchTxt.textContent = t[mode === 'register' ? 'auth_switch_login' : 'auth_switch_register'];
+    authSwitchBtn.textContent = t[mode === 'register' ? 'auth_login_btn' : 'auth_register_btn'];
+  }
+  function authMsg(cls, msg){
+    authStatus.className = 'auth-status ' + cls;
+    authStatus.textContent = msg;
+  }
+  tabLogin.addEventListener('click', ()=> setAuthMode('login'));
+  tabRegister.addEventListener('click', ()=> setAuthMode('register'));
+  authSwitchBtn.addEventListener('click', ()=> setAuthMode(authMode === 'login' ? 'register' : 'login'));
+
+  if(authUser){
+    location.replace('index.html');
+  }else{
+    authForm.addEventListener('submit', async e=>{
+      e.preventDefault();
+      authMsg('', '');
+      const t = authT();
+      const user = unameInput.value.trim();
+      const pass = passInput.value;
+      const conf = confInput.value;
+      const isReg = authMode === 'register';
+      const state = isReg ? authState.value : null;
+      if(!user || !pass || (isReg && !conf)){ authMsg('err', t.auth_err_missing); return; }
+      if(!/^[A-Za-z0-9_.-]{3,24}$/.test(user)){ authMsg('err', t.auth_err_userlen); return; }
+      if(pass.length < 6){ authMsg('err', t.auth_err_passlen); return; }
+      if(isReg && conf !== pass){ authMsg('err', t.auth_err_match); return; }
+      const payload = {username: user, password: pass};
+      if(isReg && state) payload.state = state;
+      authSubmit.disabled = true;
+      try{
+        const res = await fetch(API + '/api/auth/' + (isReg ? 'register' : 'login'), {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const d = await res.json().catch(()=> ({}));
+        if(!res.ok){
+          authSubmit.disabled = false;
+          authSubmit.textContent = t[isReg ? 'auth_register_btn' : 'auth_login_btn'];
+          let msg = t.auth_err_server;
+          if(res.status === 409) msg = t.auth_err_taken;
+          else if(res.status === 401) msg = t.auth_err_bad;
+          else if(d.error === 'bad_username') msg = t.auth_err_userlen;
+          else if(d.error === 'short_password') msg = t.auth_err_passlen;
+          authMsg('err', msg);
+          return;
+        }
+        if(d && d.token){
+          const local = favs.slice();
+          setAuth(d.token, d.username);
+          if(local.length){
+            favs = local.slice();
+            saveFavs();
+            local.forEach(id=>{
+              fetch(API + '/api/favs', {method:'POST', headers: authHeaders(), body: JSON.stringify({item: String(id)})}).catch(()=>{});
+            });
+          }
+          authMsg('ok', t.auth_ok.replace('{user}', d.username));
+          setTimeout(()=>{ location.replace('index.html'); }, 900);
+        }else{
+          authSubmit.disabled = false;
+          authSubmit.textContent = t[isReg ? 'auth_register_btn' : 'auth_login_btn'];
+          authMsg('err', t.auth_err_server);
+        }
+      }catch(ex){
+        authSubmit.disabled = false;
+        authSubmit.textContent = t[isReg ? 'auth_register_btn' : 'auth_login_btn'];
+        authMsg('err', t.auth_err_server);
+      }
+    });
+  }
 }
