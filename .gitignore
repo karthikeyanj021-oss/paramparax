@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.db
+*.log
+backups/
+leaflet/
+*.docx
+bg-preview.html
+SIH_prototype.html
+SIH-Tasks.md
+/jpg.jpe?g
+/jpg(*).jpeg
+/WhatsApp*.jpeg/jpg.jpeg
