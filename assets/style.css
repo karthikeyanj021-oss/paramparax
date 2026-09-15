@@ -54,7 +54,9 @@ nav{display:flex; gap:28px; flex-wrap:wrap;}
 nav a{font-size:16px; font-weight:500; color:var(--ink-soft); text-decoration:none; transition:color .15s ease;}
 nav a:hover{color:var(--saffron-text);}
   nav a.active{color:var(--saffron-text); font-weight:600;}
-.nav-auth{display:inline-flex; align-items:center; gap:6px;}
+.nav-auth{display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--navy); font-size:13.5px; font-weight:600; text-decoration:none; transition:background .15s ease, color .15s ease, border-color .15s ease;}
+.nav-auth:hover{background:var(--sand); color:var(--saffron-text); border-color:var(--saffron);}
+.nav-auth.active{background:var(--saffron); color:#2b1600; border-color:var(--saffron);}
 .nav-auth-ico{flex:0 0 auto;}
 .lang-switch{display:flex; gap:2px; background:var(--sand); border-radius:999px; padding:3px;}
 .lang-switch button{
