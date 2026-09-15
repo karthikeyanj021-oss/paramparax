@@ -609,20 +609,17 @@ async function logout(){
   showToast((translations[currentLang]||translations.en).auth_logout);
 }
 function refreshAuthUI(){
-  const el = document.querySelector('nav a[href="login.html"]');
+  const el = document.getElementById('navAuth');
   if(!el) return;
+  const span = el.querySelector('[data-i18n]');
+  const label = span || el;
   if(authUser){
-    el.textContent = authUser + ' \u00b7 ' + ((translations[currentLang]||translations.en).auth_logout);
-    el.removeAttribute('data-i18n');
-    el.onclick = (e)=>{
-      e.preventDefault();
-      logout();
-      el.textContent = (translations[currentLang]||translations.en).login_nav;
-      el.setAttribute('data-i18n','login_nav');
-    };
+    el.onclick = (e)=>{ e.preventDefault(); logout(); };
+    label.removeAttribute('data-i18n');
+    label.textContent = authUser + ' \u00b7 ' + ((translations[currentLang]||translations.en).auth_logout);
   }else{
-    el.textContent = (translations[currentLang]||translations.en).login_nav;
-    el.setAttribute('data-i18n','login_nav');
+    label.textContent = (translations[currentLang]||translations.en).login_nav;
+    label.setAttribute('data-i18n','login_nav');
     el.onclick = null;
   }
 }

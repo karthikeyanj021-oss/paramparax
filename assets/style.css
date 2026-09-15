@@ -54,6 +54,8 @@ nav{display:flex; gap:28px; flex-wrap:wrap;}
 nav a{font-size:16px; font-weight:500; color:var(--ink-soft); text-decoration:none; transition:color .15s ease;}
 nav a:hover{color:var(--saffron-text);}
   nav a.active{color:var(--saffron-text); font-weight:600;}
+.nav-auth{display:inline-flex; align-items:center; gap:6px;}
+.nav-auth-ico{flex:0 0 auto;}
 .lang-switch{display:flex; gap:2px; background:var(--sand); border-radius:999px; padding:3px;}
 .lang-switch button{
   border:none; background:transparent; padding:7px 14px; border-radius:999px;
