@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="120" height="120" alt="ParamparaX logo">
+</p>
+
 # ParamparaX
 
 A living museum of India's cultural heritage — an AI-powered discovery platform for crafts, dances, festivals, heritage places, languages and origin stories.
