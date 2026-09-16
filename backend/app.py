@@ -1,13 +1,20 @@
 """
-ParamparaX SIH prototype - backend (Flask + SQLite).
+ParamparaX SIH prototype - backend (Flask + SQLite/Postgres).
 
 Stores:
   - user signups (mobile number + state)
+  - username/password accounts + sessions
+  - favourites + chat history per account
   - a community photo gallery (caption + image file)
 
+Database: uses Postgres when the DATABASE_URL env var is set (recommended
+on hosted platforms such as Render so data survives restarts/redeploys),
+otherwise a local SQLite file (backend/virasat.db).
+
 Run (from this folder):
-    pip install flask
+    pip install -r requirements.txt
     python app.py
+    # with Postgres: set DATABASE_URL before starting
 
 The Flask server now serves the whole site (HTML/CSS/JS from the repo
 root) plus the API and uploads on a single origin, and binds to 0.0.0.0
@@ -44,17 +51,154 @@ UPLOAD_DIR = os.path.join(BASE, 'uploads')
 ALLOWED_EXT = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
 MAX_BYTES = 8 * 1024 * 1024
 
+# ---- database backend ---------------------------------------------------
+# Set the DATABASE_URL env var to a Postgres connection string (e.g. Render
+# Postgres internal URL) to use Postgres; otherwise SQLite is used (dev).
+try:
+    import psycopg
+    import psycopg.errors
+    from psycopg.rows import dict_row
+    HAS_PG = True
+except ImportError:
+    HAS_PG = False
+
+DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
+DB_BACKEND = 'postgres' if (DATABASE_URL and HAS_PG) else 'sqlite'
+
+if DB_BACKEND == 'postgres':
+    DB_ERROR = psycopg.Error
+    DB_INTEGRITY = psycopg.errors.UniqueViolation
+else:
+    DB_ERROR = sqlite3.Error
+    DB_INTEGRITY = sqlite3.IntegrityError
+
+SQLITE_SCHEMA = '''
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        phone TEXT NOT NULL UNIQUE,
+        state TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS gallery(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT NOT NULL,
+        caption TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS accounts(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        pass_hash TEXT NOT NULL,
+        state TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS sessions(
+        token TEXT PRIMARY KEY,
+        account_id INTEGER NOT NULL,
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS favourites(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER NOT NULL,
+        item TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        UNIQUE(account_id, item)
+    );
+    CREATE TABLE IF NOT EXISTS chat_log(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER NOT NULL,
+        role TEXT NOT NULL,
+        text TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
+'''
+
+PG_SCHEMA = '''
+    CREATE TABLE IF NOT EXISTS users(
+        id SERIAL PRIMARY KEY,
+        phone TEXT NOT NULL UNIQUE,
+        state TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS gallery(
+        id SERIAL PRIMARY KEY,
+        filename TEXT NOT NULL,
+        caption TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS accounts(
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        pass_hash TEXT NOT NULL,
+        state TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS sessions(
+        token TEXT PRIMARY KEY,
+        account_id INTEGER NOT NULL,
+        created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS favourites(
+        id SERIAL PRIMARY KEY,
+        account_id INTEGER NOT NULL,
+        item TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        UNIQUE(account_id, item)
+    );
+    CREATE TABLE IF NOT EXISTS chat_log(
+        id SERIAL PRIMARY KEY,
+        account_id INTEGER NOT NULL,
+        role TEXT NOT NULL,
+        text TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
+'''
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = MAX_BYTES
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
+def _connect():
+    if DB_BACKEND == 'postgres':
+        conn = psycopg.connect(DATABASE_URL, row_factory=dict_row)
+    else:
+        conn = sqlite3.connect(DB)
+        conn.row_factory = sqlite3.Row
+    return conn
+
+
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(DB)
-        g.db.row_factory = sqlite3.Row
+        g.db = _connect()
     return g.db
+
+
+def _sql(sql):
+    """Translate SQLite SQL to Postgres where necessary."""
+    if DB_BACKEND != 'postgres':
+        return sql
+    if sql == 'INSERT OR IGNORE INTO favourites(account_id, item, created_at) VALUES(?,?,?)':
+        return ('INSERT INTO favourites(account_id, item, created_at) '
+                'VALUES(%s, %s, %s) ON CONFLICT (account_id, item) DO NOTHING')
+    if sql.startswith('INSERT INTO gallery(filename, caption, created_at) VALUES(?,?,?)'):
+        return 'INSERT INTO gallery(filename, caption, created_at) VALUES(%s, %s, %s) RETURNING id'
+    if sql.startswith('INSERT INTO accounts(username, pass_hash, state, created_at) VALUES(?,?,?,?)'):
+        return ('INSERT INTO accounts(username, pass_hash, state, created_at) '
+                'VALUES(%s, %s, %s, %s) RETURNING id')
+    return sql.replace('?', '%s')
+
+
+def db_exec(sql, params=()):
+    return get_db().execute(_sql(sql), params)
+
+
+def _last_id(cur):
+    if DB_BACKEND == 'postgres':
+        row = cur.fetchone()
+        return row['id'] if row else None
+    return cur.lastrowid
 
 
 @app.teardown_appcontext
@@ -65,47 +209,19 @@ def close_db(exc):
 
 
 def init_db():
+    if DB_BACKEND == 'postgres':
+        conn = psycopg.connect(DATABASE_URL)
+        try:
+            for stmt in PG_SCHEMA.split(';'):
+                stmt = stmt.strip()
+                if stmt:
+                    conn.execute(stmt)
+            conn.commit()
+        finally:
+            conn.close()
+        return
     with sqlite3.connect(DB) as db:
-        db.executescript('''
-            CREATE TABLE IF NOT EXISTS users(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                phone TEXT NOT NULL UNIQUE,
-                state TEXT NOT NULL DEFAULT '',
-                created_at TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS gallery(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                filename TEXT NOT NULL,
-                caption TEXT NOT NULL DEFAULT '',
-                created_at TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS accounts(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL UNIQUE,
-                pass_hash TEXT NOT NULL,
-                state TEXT NOT NULL DEFAULT '',
-                created_at TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS sessions(
-                token TEXT PRIMARY KEY,
-                account_id INTEGER NOT NULL,
-                created_at TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS favourites(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                account_id INTEGER NOT NULL,
-                item TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                UNIQUE(account_id, item)
-            );
-            CREATE TABLE IF NOT EXISTS chat_log(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                account_id INTEGER NOT NULL,
-                role TEXT NOT NULL,
-                text TEXT NOT NULL,
-                created_at TEXT NOT NULL
-            );
-        ''')
+        db.executescript(SQLITE_SCHEMA)
 
 
 @app.after_request
@@ -121,7 +237,7 @@ def users():
     if request.method == 'OPTIONS':
         return ('', 204)
     if request.method == 'GET':
-        rows = get_db().execute('SELECT * FROM users ORDER BY id DESC').fetchall()
+        rows = db_exec('SELECT * FROM users ORDER BY id DESC').fetchall()
         return jsonify([dict(r) for r in rows])
     data = request.get_json(silent=True) or {}
     phone = str(data.get('phone', '') or '').strip()
@@ -129,14 +245,14 @@ def users():
     if not phone.isdigit() or len(phone) != 10 or phone[0] not in '6789':
         return jsonify({'ok': False, 'error': 'invalid_phone'}), 400
     try:
-        cur = get_db().execute(
+        cur = db_exec(
             'INSERT INTO users(phone, state, created_at) VALUES(?,?,?)',
             (phone, state, time.strftime('%Y-%m-%d %H:%M:%S')))
         get_db().commit()
         return jsonify({'ok': True, 'id': cur.lastrowid}), 201
-    except sqlite3.IntegrityError:
+    except DB_INTEGRITY:
         return jsonify({'ok': False, 'error': 'duplicate_phone'}), 409
-    except sqlite3.Error:
+    except DB_ERROR:
         return jsonify({'ok': False, 'error': 'db_error'}), 500
 
 
@@ -145,7 +261,7 @@ def gallery():
     if request.method == 'OPTIONS':
         return ('', 204)
     if request.method == 'GET':
-        rows = get_db().execute('SELECT * FROM gallery ORDER BY id DESC').fetchall()
+        rows = db_exec('SELECT * FROM gallery ORDER BY id DESC').fetchall()
         return jsonify([dict(r) for r in rows])
     acc = token_account()
     if not acc:
@@ -160,17 +276,18 @@ def gallery():
     name = '{}_{}'.format(int(time.time() * 1000), os.path.basename(f.filename).replace(' ', '_'))
     f.save(os.path.join(UPLOAD_DIR, name))
     try:
-        cur = get_db().execute(
+        cur = db_exec(
             'INSERT INTO gallery(filename, caption, created_at) VALUES(?,?,?)',
             (name, caption, time.strftime('%Y-%m-%d %H:%M:%S')))
         get_db().commit()
-    except sqlite3.Error:
+        new_id = _last_id(cur)
+    except DB_ERROR:
         try:
             os.remove(os.path.join(UPLOAD_DIR, name))
         except OSError:
             pass
         return jsonify({'ok': False, 'error': 'db_error'}), 500
-    return jsonify({'ok': True, 'id': cur.lastrowid, 'filename': name}), 201
+    return jsonify({'ok': True, 'id': new_id, 'filename': name}), 201
 
 
 @app.route('/uploads/<path:name>')
@@ -182,7 +299,7 @@ def token_account():
     auth = request.headers.get('Authorization', '')
     if not auth.startswith('Bearer '):
         return None
-    row = get_db().execute(
+    row = db_exec(
         'SELECT a.* FROM sessions s JOIN accounts a ON a.id=s.account_id WHERE s.token=?',
         (auth[7:].strip(),)).fetchone()
     return row
@@ -190,7 +307,7 @@ def token_account():
 
 def make_session(account_id):
     token = secrets.token_hex(32)
-    get_db().execute('INSERT INTO sessions(token, account_id, created_at) VALUES(?,?,?)',
+    db_exec('INSERT INTO sessions(token, account_id, created_at) VALUES(?,?,?)',
                      (token, account_id, time.strftime('%Y-%m-%d %H:%M:%S')))
     get_db().commit()
     return token
@@ -212,16 +329,16 @@ def auth_register():
     if len(password) < 6:
         return jsonify({'ok': False, 'error': 'short_password'}), 400
     try:
-        cur = get_db().execute(
+        cur = db_exec(
             'INSERT INTO accounts(username, pass_hash, state, created_at) VALUES(?,?,?,?)',
             (username, generate_password_hash(password), state[:100],
              time.strftime('%Y-%m-%d %H:%M:%S')))
         get_db().commit()
-        token = make_session(cur.lastrowid)
+        token = make_session(_last_id(cur))
         return jsonify({'ok': True, 'token': token, 'username': username}), 201
-    except sqlite3.IntegrityError:
+    except DB_INTEGRITY:
         return jsonify({'ok': False, 'error': 'taken'}), 409
-    except sqlite3.Error:
+    except DB_ERROR:
         return jsonify({'ok': False, 'error': 'db_error'}), 500
 
 
@@ -232,7 +349,7 @@ def auth_login():
     data = request.get_json(silent=True) or {}
     username = str(data.get('username', '') or '').strip()
     password = str(data.get('password', '') or '')
-    acc = get_db().execute('SELECT * FROM accounts WHERE username=?', (username,)).fetchone()
+    acc = db_exec('SELECT * FROM accounts WHERE username=?', (username,)).fetchone()
     if not acc or not check_password_hash(acc['pass_hash'], password):
         return jsonify({'ok': False, 'error': 'bad_credentials'}), 401
     token = make_session(acc['id'])
@@ -245,7 +362,7 @@ def auth_logout():
         return ('', 204)
     auth = request.headers.get('Authorization', '')
     if auth.startswith('Bearer '):
-        get_db().execute('DELETE FROM sessions WHERE token=?', (auth[7:].strip(),))
+        db_exec('DELETE FROM sessions WHERE token=?', (auth[7:].strip(),))
         get_db().commit()
     return jsonify({'ok': True})
 
@@ -268,18 +385,18 @@ def favs():
     if not acc:
         return jsonify({'ok': False, 'error': 'unauthorized'}), 401
     if request.method == 'GET':
-        rows = get_db().execute('SELECT item FROM favourites WHERE account_id=?', (acc['id'],)).fetchall()
+        rows = db_exec('SELECT item FROM favourites WHERE account_id=?', (acc['id'],)).fetchall()
         return jsonify({'ok': True, 'favs': [r['item'] for r in rows]})
     data = request.get_json(silent=True) or {}
     item = str(data.get('item', '') or '').strip()
     if not item:
         return jsonify({'ok': False, 'error': 'missing_item'}), 400
     try:
-        get_db().execute('INSERT OR IGNORE INTO favourites(account_id, item, created_at) VALUES(?,?,?)',
+        db_exec('INSERT OR IGNORE INTO favourites(account_id, item, created_at) VALUES(?,?,?)',
                          (acc['id'], item, time.strftime('%Y-%m-%d %H:%M:%S')))
         get_db().commit()
         return jsonify({'ok': True})
-    except sqlite3.Error:
+    except DB_ERROR:
         return jsonify({'ok': False, 'error': 'db_error'}), 500
 
 
@@ -290,7 +407,7 @@ def fav_delete(item):
     acc = token_account()
     if not acc:
         return jsonify({'ok': False, 'error': 'unauthorized'}), 401
-    get_db().execute('DELETE FROM favourites WHERE account_id=? AND item=?', (acc['id'], item))
+    db_exec('DELETE FROM favourites WHERE account_id=? AND item=?', (acc['id'], item))
     get_db().commit()
     return jsonify({'ok': True})
 
@@ -303,11 +420,11 @@ def chat_log():
     if not acc:
         return jsonify({'ok': False, 'error': 'unauthorized'}), 401
     if request.method == 'GET':
-        rows = get_db().execute(
+        rows = db_exec(
             'SELECT role, text FROM chat_log WHERE account_id=? ORDER BY id ASC', (acc['id'],)).fetchall()
         return jsonify({'ok': True, 'messages': [dict(r) for r in rows]})
     if request.method == 'DELETE':
-        get_db().execute('DELETE FROM chat_log WHERE account_id=?', (acc['id'],))
+        db_exec('DELETE FROM chat_log WHERE account_id=?', (acc['id'],))
         get_db().commit()
         return jsonify({'ok': True})
     data = request.get_json(silent=True) or {}
@@ -317,7 +434,7 @@ def chat_log():
         return jsonify({'ok': False, 'error': 'missing_fields'}), 400
     if len(text) > 20000:
         text = text[:20000]
-    get_db().execute('INSERT INTO chat_log(account_id, role, text, created_at) VALUES(?,?,?,?)',
+    db_exec('INSERT INTO chat_log(account_id, role, text, created_at) VALUES(?,?,?,?)',
                      (acc['id'], role, text, time.strftime('%Y-%m-%d %H:%M:%S')))
     get_db().commit()
     return jsonify({'ok': True})
