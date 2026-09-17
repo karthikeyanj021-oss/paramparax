@@ -481,8 +481,9 @@ def doc_search():
 
 @app.route('/')
 def index():
-    """Serve the public ParamparaX site from the repository root."""
-    return send_from_directory(SITE_DIR, 'index.html')
+    """Landing page = intro + Log in / Sign up (accounts gate).
+    Logged-in users are sent straight to the heritage home."""
+    return send_from_directory(SITE_DIR, 'login.html')
 
 
 @app.route('/assets/<path:name>')
