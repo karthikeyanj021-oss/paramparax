@@ -29,7 +29,7 @@ A living museum of India's cultural heritage — an AI-powered discovery platfor
 - **Frontend:** vanilla HTML / CSS / JavaScript (`index.html`, `assets/`)
 - **Storage:** local SQLite database (`backend/virasat.db`)
 
-> Deployment note: Render's free tier uses an ephemeral filesystem, so the SQLite database resets on redeploys/restarts. For persistent accounts, plug in a hosted Postgres (Render Postgres / Neon / Supabase) via a `DATABASE_URL`.
+> Storage: local SQLite database (`backend/virasat.db`) is used by default; set a `DATABASE_URL` and the app auto-switches to PostgreSQL (psycopg). No external host is needed.
 
 ## Run locally
 
@@ -41,11 +41,16 @@ python backend/app.py
 
 The site is single-origin: Flask serves the static pages and the JSON API together.
 
-## Deploy on Render
+## Run locally
 
-1. Create a **Web Service** from the `karthikeyanj021-oss/paramparax` repository.
-2. **Root Directory:** `backend` · **Branch:** `main` · **Runtime:** Python 3
-3. **Build:** `pip install -r requirements.txt`
-4. **Start:** `gunicorn --bind 0.0.0.0:$PORT app:app`
+```bash
+pip install -r backend/requirements.txt
+python backend/app.py
+# open http://127.0.0.1:5000
+```
 
-Live: https://paramparax.onrender.com
+The site opens on the intro + Log in / Sign up page; already-signed-in users go straight to the heritage home. A `ParamparaX` startup entry starts the server automatically at Windows logon.
+
+## Database
+
+SQLite (`backend/virasat.db`) is the default and is created on first login. To use Postgres instead, set a `DATABASE_URL` environment variable before starting (`postgresql://user:pass@host/db`) and the backend auto-switches (psycopg) — handy for multi-machine or persistent-hosted setups.
